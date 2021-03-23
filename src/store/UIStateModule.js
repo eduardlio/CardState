@@ -36,7 +36,8 @@ const UIStateModule = {
 		}
 	},
 	actions: {
-		setCurrentPage({ commit }, pageName) {
+		setCurrentPage({ state, commit }, pageName) {
+			if(state.currentPage === pageName) return;
 			const fetchedCards = DB.pages[pageName]?.cards || {};
 			if(fetchedCards) {
 				commit('SET_CURRENT_PAGE', pageName)
@@ -51,7 +52,6 @@ const UIStateModule = {
 			commit('COMPLETE_CARD', payload)
 		},
 		generateStateFromConfig(_, config) {
-			console.log(config);
 			DB = generateStateFromConfig(config);
 		}
 	},

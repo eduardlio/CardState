@@ -11,6 +11,28 @@ const store = new Vuex.Store({
 		UIStateModule,
 		DataModule,
 		ConfigModule,
+	},
+	getters: {
+		displayCards: function(state){
+			if(!state.UIStateModule.currentPage) return [];
+			const { currentPage } = state.UIStateModule;
+
+			const pageConfig = state.ConfigModule.config.pages[currentPage];
+			const cardStates = state.UIStateModule.cards;
+
+			const pageSequence = [];
+			let cursor = cardStates[pageConfig.start];
+      const cardWillShow = (cardState) => {
+        return !!cardState
+        && (pageConfig.start === cardState.name || !!cardState.back)
+      }
+			while(cardWillShow(cursor)) {
+				cursor.options = pageConfig.cards[cursor.name].nextOptions
+				pageSequence.push(cursor);
+				cursor = cardStates[cursor.next];
+			}
+			return pageSequence
+		}
 	}
 })
 

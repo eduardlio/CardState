@@ -5,7 +5,7 @@
     <button @click.prevent="openPage('page-01')">Open Page-01</button>
     <button @click.prevent="openPage('page-02')">Open Page-02</button>
 
-    <div class="card" v-for="card in cardSet" :key="`${page}-${card.name}`">
+    <div class="card" v-for="card in displayCards" :key="`${page}-${card.name}`">
       <p>{{ page }} {{ card.name }}: Complete? {{ card.complete }}</p>
       <p v-if="card.complete">The next option selected was: {{card.next}}</p>
       <div id="option-wrap" v-if="!card.complete">
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -43,22 +44,7 @@ export default {
     }
   },
   computed: {
-    cardSet () {
-      const pageConfig = this.$store.state.ConfigModule.config.pages[this.page];
-      const cardWillShow = (cardState) => {
-        return !!cardState 
-        && (pageConfig.start === cardState.name || !!cardState.back)
-      }
-      const pageSequence = [];
-      const cardStates = this.$store.state.UIStateModule.cards
-      let currentCard = cardStates[pageConfig.start];
-      while(cardWillShow(currentCard)) {
-        currentCard.options = pageConfig.cards[currentCard.name].nextOptions;
-        pageSequence.push(currentCard);
-        currentCard = cardStates[currentCard.next];
-      }
-      return pageSequence;
-    }
+    ...mapGetters(['displayCards'])
   },
 }
 </script>
