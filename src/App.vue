@@ -4,6 +4,7 @@
     <h2>{{ page }}</h2>
     <button @click.prevent="openPage('page-01')">Open Page-01</button>
     <button @click.prevent="openPage('page-02')">Open Page-02</button>
+    <button @click.prevent="openPage('finance')">Open Finance</button>
 
     <div class="card" v-for="card in displayCards" :key="`${page}-${card.name}`">
       <p>{{ page }} {{ card.name }}: Complete? {{ card.complete }}</p>

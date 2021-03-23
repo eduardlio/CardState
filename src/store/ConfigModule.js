@@ -23,6 +23,7 @@ let CONFIGS = [{
 		"page-02": {
 			key: "page-02",
 			"start": "a",
+			next: "finance",
 			cards: {
 				"a": {
 					name: "a",
@@ -40,8 +41,30 @@ let CONFIGS = [{
 					name: "d",
 					nextOptions: []
 				}
-			},
-			next: null
+			}
+		},
+		"finance": {
+			key: "finance",
+			start: "FinanceBasicDetails",
+			next: null,
+			cards: {
+				"FinanceBasicDetails": {
+					name: "FinanceBasicDetails",
+					nextOptions: ["RepaymentOptions", "ThankYou"]
+				},
+				"RepaymentOptions": {
+					name: "RepaymentOptions",
+					nextOptions: ["IncomeExpenses"]
+				},
+				"IncomeExpenses": {
+					name: "IncomeExpenses",
+					nextOptions: ["ThankYou"]
+				},
+				"ThankYou": {
+					name: "ThankYou",
+					nextOptions: []
+				}
+			}
 		}
 	}
 }]
